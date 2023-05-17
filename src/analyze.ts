@@ -12,10 +12,11 @@ const issueTypesTitles = {
 /***
  * @notice Runs the given issues on files and generate the report markdown string
  */
-const analyze = (files: InputType, issues: Issue[], githubLink?: string): string => {
+const analyze = (files: InputType, issues: Issue[]): string => {
   let result = '';
   let analyze: { issue: Issue; instances: Instance[] }[] = [];
   for (const issue of issues) {
+    console.log(`Analyzing ${issue}`);
     let instances: Instance[] = [];
     // If issue is a regex
     if (issue.regexOrAST === 'Regex') {

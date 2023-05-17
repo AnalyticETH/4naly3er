@@ -37,11 +37,7 @@ const main = async ({ scope, output = 'report.md', installDependencies, verbose 
 
   // Install dependencies
   if (installDependencies) {
-    const baseDirectories = [...new Set(fileNames.map(e => e.replace(/contracts\/.*/, '').replace(/src\/.*/, '')))];
-    console.log(baseDirectories);
-    for (const baseDirectory of baseDirectories) {
-      await install(baseDirectory);
-    }
+    await install();
   }
 
   // Read file contents and build AST

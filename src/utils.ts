@@ -108,12 +108,8 @@ export const getStorageVariable = (contract: ContractDefinition): string[] => {
   return storageVariables;
 };
 
-export const installDependencies = async (baseDirectory: string): Promise<void> => {
-  const cwd = process.cwd();
-  console.log('chdir', cwd, baseDirectory);
-  process.chdir(`${cwd}/${baseDirectory}`);
+export const installDependencies = async (): Promise<void> => {
   await sh('stat yarn.lock && yarn install || true');
   await sh('stat package-lock.json && npm install || true');
   await sh('stat foundry.toml && forge init --force && forge install --no-commit || true');
-  process.chdir(cwd);
 };
