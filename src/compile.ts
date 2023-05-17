@@ -64,7 +64,7 @@ const findImports = (basePath: string) => {
       /** 1 - import are stored in `node_modules` */
       try {
         const absolutePath = path.resolve(basePath, prefix, 'node_modules/', relativePath);
-        console.log(absolutePath);
+        console.log(1, absolutePath);
         const source = fs.readFileSync(absolutePath, 'utf8');
         return { contents: source };
       } catch {}
@@ -81,6 +81,7 @@ const findImports = (basePath: string) => {
         }
 
         const absolutePath = path.resolve(basePath, relativePath);
+        console.log(2, absolutePath);
         const source = fs.readFileSync(absolutePath, 'utf8');
         return { contents: source };
       } catch {}
@@ -88,6 +89,7 @@ const findImports = (basePath: string) => {
       /** 3 - import are stored relatively */
       try {
         const absolutePath = path.resolve(basePath, prefix, relativePath);
+        console.log(3, absolutePath);
         const source = fs.readFileSync(absolutePath, 'utf8');
         return { contents: source };
       } catch {}
