@@ -13,6 +13,9 @@
   "bin": {
     "coypu": "dist/index.js"
   },
+  "files": [
+    "dist"
+  ],
   "dependencies": {
     "@types/semver": "^7.3.13",
     "semver": "^7.3.8",
