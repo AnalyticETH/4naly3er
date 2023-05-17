@@ -12,8 +12,9 @@ const issueTypesTitles = {
 /***
  * @notice Runs the given issues on files and generate the report markdown string
  */
-const analyze = (files: InputType, issues: Issue[]): string => {
+const analyze = (files: InputType, issues: Issue[]): { result: string; summary: string } => {
   let result = '';
+  let summary = '';
   let analyze: { issue: Issue; instances: Instance[] }[] = [];
   for (const issue of issues) {
     let instances: Instance[] = [];
@@ -53,7 +54,9 @@ const analyze = (files: InputType, issues: Issue[]): string => {
     result += '\n| |Issue|Instances|\n|-|:-|:-:|\n';
     for (const { issue, instances } of analyze) {
       c++;
-      result += `| [${issue.type}-${c}](#${issue.type}-${c}) | ${issue.title} | ${instances.length} |\n`;
+      const str = `| [${issue.type}-${c}](#${issue.type}-${c}) | ${issue.title} | ${instances.length} |\n`;
+      result += str;
+      summary += str;
     }
   }
 
@@ -101,7 +104,7 @@ const analyze = (files: InputType, issues: Issue[]): string => {
     result += `\n`;
   }
 
-  return result;
+  return { result, summary };
 };
 
 export default analyze;

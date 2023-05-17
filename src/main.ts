@@ -52,11 +52,20 @@ const main = async ({ scope, output = 'report.md', installDependencies, verbose 
   });
 
   console.log(issues, IssueTypes);
-  for (const t of Object.values(IssueTypes)) {
-    result += analyze(
+  const analysis = Object.values(IssueTypes).map(type =>
+    analyze(
       files,
-      issues.filter(i => i.type === t),
-    );
+      issues.filter(i => i.type === type),
+    ),
+  );
+
+  result += '## Summary \n\n';
+  for (const a of analysis) {
+    result += a.summary;
+  }
+  result += '## Issues \n\n';
+  for (const a of analysis) {
+    result += a.result;
   }
 
   fs.writeFileSync(output, result);
