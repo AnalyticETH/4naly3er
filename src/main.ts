@@ -51,6 +51,7 @@ const main = async ({ scope, output = 'report.md', installDependencies, verbose 
     });
   });
 
+  console.log(issues, IssueTypes);
   for (const t of Object.values(IssueTypes)) {
     result += analyze(
       files,
