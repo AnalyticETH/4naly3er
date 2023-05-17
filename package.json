@@ -17,7 +17,6 @@
     "dist"
   ],
   "dependencies": {
-    "@types/semver": "^7.3.13",
     "semver": "^7.3.8",
     "solc": "^0.8.17",
     "solc-0.6.10": "npm:solc@0.6.10",
@@ -71,6 +70,7 @@
     "eslint-plugin-simple-import-sort": "^7.0.0",
     "eslint-plugin-standard": "5.0.0",
     "prettier": "^2.7.1",
+    "@types/semver": "^7.3.13",
     "ts-loader": "^9.4.2",
     "ts-node": "^10.9.1",
     "typescript": "^5.0.4",

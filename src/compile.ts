@@ -3,6 +3,12 @@ import path from 'path';
 import semver from 'semver';
 import type { SourceUnit } from 'solidity-ast';
 
+import solc000817 from 'solc-0.8.17';
+
+const solc: Record<string, any> = {
+  '0.8.17': solc000817,
+};
+
 const versions = Object.keys(require('../package.json').dependencies)
   .filter(s => s.startsWith('solc-'))
   .map(s => s.replace('solc-', ''))
@@ -17,10 +23,12 @@ type Sources = { file: string; index: number; content: string; version: string; 
  * @param toCompile source files with content already loaded
  */
 const compile = async (version: string, toCompile: ToCompile, basePath: string) => {
-  const solc = require(`solc-${version}`);
-
   // version() returns something like '0.8.13+commit.abaa5c0e.Emscripten.clang'
-  const [trueVersion] = solc.version().split('+');
+  const solidity = solc[version];
+  if (!solidity) {
+    throw new Error(`solc version ${version} not supported`);
+  }
+  const [trueVersion] = solidity.version().split('+');
 
   let output;
   if (trueVersion !== version) {
@@ -29,7 +37,7 @@ const compile = async (version: string, toCompile: ToCompile, basePath: string) 
     };
   } else {
     output = JSON.parse(
-      solc.compile(
+      solidity.compile(
         JSON.stringify({
           sources: toCompile,
           language: 'Solidity',
