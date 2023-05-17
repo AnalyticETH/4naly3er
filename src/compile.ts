@@ -2,7 +2,6 @@ import fs from 'fs';
 import path from 'path';
 import semver from 'semver';
 import type { SourceUnit } from 'solidity-ast';
-import { recursiveExploration } from './utils';
 
 const versions = Object.keys(require('../package.json').dependencies)
   .filter(s => s.startsWith('solc-'))
@@ -57,6 +56,7 @@ const findImports = (basePath: string) => {
       /** 1 - import are stored in `node_modules` */
       try {
         const absolutePath = path.resolve(basePath, prefix, 'node_modules/', relativePath);
+        console.log(absolutePath);
         const source = fs.readFileSync(absolutePath, 'utf8');
         return { contents: source };
       } catch {}

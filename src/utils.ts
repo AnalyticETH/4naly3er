@@ -24,12 +24,7 @@ export const instanceFromSRC = (file: InputType[0], start: string, end?: string)
   };
 };
 
-/**
- * @notice Execute simple shell command (async wrapper).
- * @param {String} cmd
- * @return {Object} { stdout: String, stderr: String }
- */
-export async function sh(cmd: string) {
+export async function sh(cmd: string): Promise<{ stdout: string; stderr: string }> {
   return new Promise(function (resolve, reject) {
     exec(cmd, (err, stdout, stderr) => {
       if (err) {
@@ -111,4 +106,13 @@ export const getStorageVariable = (contract: ContractDefinition): string[] => {
     storageVariables = storageVariables.filter(e => !funcVariables.includes(e));
   }
   return storageVariables;
+};
+
+export const installDependencies = async (baseDirectory: string): Promise<void> => {
+  const cwd = process.cwd();
+  console.log('chdir', cwd, baseDirectory);
+  process.chdir(`${cwd}/${baseDirectory}`);
+  await sh('yarn');
+  await sh('forge install --no-commit');
+  process.chdir(cwd);
 };
