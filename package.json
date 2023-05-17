@@ -1,6 +1,6 @@
 {
-  "name": "capybara",
-  "version": "1.0.0",
+  "name": "coypu",
+  "version": "0.0.0",
   "description": "Static Solidity Analyzer",
   "main": "index.ts",
   "author": "Antonio Viggiano",
@@ -11,7 +11,7 @@
     "analyze": "ts-node --esm src/index.ts"
   },
   "bin": {
-    "capybara": "dist/index.js"
+    "coypu": "dist/index.js"
   },
   "dependencies": {
     "@types/semver": "^7.3.13",

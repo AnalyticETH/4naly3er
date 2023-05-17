@@ -1,6 +1,6 @@
-# capybara
+# coypu
 
-Capybara is an open source static analyzer that competes on Code4rena Bot Races. 
+Coypu is an open source static analyzer that competes on Code4rena Bot Races. 
 
 Prizes are held on a community multisig and split amongst all members that contribute to the project.
 
