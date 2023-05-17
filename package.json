@@ -1,5 +1,5 @@
 {
-  "name": "hedgehog",
+  "name": "capybara",
   "version": "1.0.0",
   "description": "Static Solidity Analyzer",
   "main": "index.ts",
@@ -11,7 +11,7 @@
     "analyze": "ts-node --esm src/index.ts"
   },
   "bin": {
-    "hedgehog": "dist/index.js"
+    "capybara": "dist/index.js"
   },
   "dependencies": {
     "@types/semver": "^7.3.13",
