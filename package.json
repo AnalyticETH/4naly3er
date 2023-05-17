@@ -1,6 +1,6 @@
 {
   "name": "coypu",
-  "version": "0.0.3",
+  "version": "0.0.4",
   "description": "Static Solidity Analyzer",
   "main": "index.ts",
   "author": "Antonio Viggiano",
@@ -54,6 +54,7 @@
   },
   "devDependencies": {
     "@types/node": "^20.1.5",
+    "@types/semver": "^7.3.13",
     "@types/webpack-node-externals": "^3.0.0",
     "@types/yargs": "^17.0.24",
     "@typescript-eslint/eslint-plugin": "4.28.4",
@@ -70,7 +71,6 @@
     "eslint-plugin-simple-import-sort": "^7.0.0",
     "eslint-plugin-standard": "5.0.0",
     "prettier": "^2.7.1",
-    "@types/semver": "^7.3.13",
     "ts-loader": "^9.4.2",
     "ts-node": "^10.9.1",
     "typescript": "^5.0.4",
