@@ -1,6 +1,16 @@
 {
-  "extends": "ts-node/node16/tsconfig.json",
-  "ts-node": {
-    "files": true
+  "compilerOptions": {
+    "target": "es2022",
+    "module": "esnext",
+    "rootDir": "./",
+    "outDir": "dist",
+    "allowJs": true,
+    "checkJs": true,
+    "moduleResolution": "node",
+    "allowSyntheticDefaultImports": true,
+    "noEmit": true,
+    "strict": true,
+    "esModuleInterop": true,
+    "useUnknownInCatchVariables": false
   }
 }

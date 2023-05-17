@@ -7,8 +7,10 @@
   "license": "Unlicensed",
   "private": true,
   "scripts": {
-    "analyze": "ts-node src/index.ts"
+    "build": "tsc",
+    "analyze": "ts-node --esm src/index.ts"
   },
+  "type": "module",
   "dependencies": {
     "@types/node": "^7.0.5",
     "@types/semver": "^7.3.13",
@@ -47,7 +49,7 @@
     "solc-0.8.11": "npm:solc@0.8.11",
     "solc-0.8.12": "npm:solc@0.8.12",
     "solc-0.8.13": "npm:solc@0.8.13",
-    "solc-0.8.14": "npm:solc@0.8.14",
+    "solc-0.8.14": "npm:solc@0.8.14-fixed",
     "solc-0.8.15": "npm:solc@0.8.15",
     "solc-0.8.16": "npm:solc@0.8.16",
     "solc-0.8.17": "npm:solc@0.8.17",
@@ -60,7 +62,10 @@
     "solc-0.8.9": "npm:solc@0.8.9",
     "solidity-ast": "^0.4.35",
     "ts-node": "^10.9.1",
-    "typescript": "^4.7.4"
+    "typescript": "^4.7.4",
+    "yargs": "^17.7.2"
   },
-  "devDependencies": {}
+  "devDependencies": {
+    "@types/yargs": "^17.0.24"
+  }
 }

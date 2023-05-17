@@ -11,7 +11,6 @@ const issueTypesTitles = {
 
 /***
  * @notice Runs the given issues on files and generate the report markdown string
- * @param githubLink optional url to generate links
  */
 const analyze = (files: InputType, issues: Issue[], githubLink?: string): string => {
   let result = '';
@@ -22,7 +21,7 @@ const analyze = (files: InputType, issues: Issue[], githubLink?: string): string
     if (issue.regexOrAST === 'Regex') {
       for (const file of files) {
         const matches: any = [...file.content.matchAll(issue.regex)];
-        if(!!issue.regexPreCondition) {
+        if (!!issue.regexPreCondition) {
           const preConditionMatches: any = [...file.content.matchAll(issue.regexPreCondition)];
           if (preConditionMatches.length == 0) continue;
         }
@@ -80,9 +79,6 @@ const analyze = (files: InputType, issues: Issue[], githubLink?: string): string
       if (o.fileName !== previousFileName) {
         if (previousFileName !== '') {
           result += `\n${'```'}\n`;
-          if (!!githubLink) {
-            result += `[Link to code](${githubLink + previousFileName})\n`;
-          }
           result += `\n`;
         }
         result += `${'```'}solidity\nFile: ${o.fileName}\n`;
@@ -102,9 +98,6 @@ const analyze = (files: InputType, issues: Issue[], githubLink?: string): string
       }
     }
     result += `\n${'```'}\n`;
-    if (!!githubLink) {
-      result += `[Link to code](${githubLink + previousFileName})\n`;
-    }
     result += `\n`;
   }
 
