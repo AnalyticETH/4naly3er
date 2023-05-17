@@ -114,6 +114,6 @@ export const installDependencies = async (baseDirectory: string): Promise<void> 
   process.chdir(`${cwd}/${baseDirectory}`);
   await sh('stat yarn.lock && yarn install || true');
   await sh('stat package-lock.json && npm install || true');
-  await sh('stat foundry.toml && forge install --no-commit || true');
+  await sh('stat foundry.toml && forge init --force && forge install --no-commit || true');
   process.chdir(cwd);
 };

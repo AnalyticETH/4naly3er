@@ -4,9 +4,11 @@ import semver from 'semver';
 import type { SourceUnit } from 'solidity-ast';
 
 import solc000817 from 'solc-0.8.17';
+import solc000809 from 'solc-0.8.9';
 
 const solc: Record<string, any> = {
   '0.8.17': solc000817,
+  '0.8.9': solc000809,
 };
 
 const versions = Object.keys(require('../package.json').dependencies)
