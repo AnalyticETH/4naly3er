@@ -51,7 +51,6 @@ const main = async ({ scope, output = 'report.md', installDependencies, verbose 
     });
   });
 
-  console.log(issues, IssueTypes);
   const analysis = Object.values(IssueTypes).map(type =>
     analyze(
       files,
@@ -60,6 +59,7 @@ const main = async ({ scope, output = 'report.md', installDependencies, verbose 
   );
 
   result += '## Summary \n\n';
+  result += '\n| |Issue|Instances|\n|-|:-|:-:|\n';
   for (const a of analysis) {
     result += a.summary;
   }
