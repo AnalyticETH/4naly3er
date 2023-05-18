@@ -31,6 +31,7 @@ import solmateSafeTransferLib from './M/solmateSafeTransferLib';
 import centralizationRisk from './M/centralizationRisk';
 import supportsInterface from './M/supportsInterface';
 import msgValueWithoutPayable from './M/msgValueWithoutPayable';
+import slippageValidation from './M/slippageValidation';
 import avoidEncodePacked from './L/avoidEncodePacked';
 import deprecatedFunctions from './L/deprecatedFunctions';
 import unspecifiedPragma from './L/unspecifiedPragma';
@@ -69,6 +70,7 @@ const issues: Issue[] = [
   solmateSafeTransferLib,
   supportsInterface,
   msgValueWithoutPayable,
+  slippageValidation,
   centralizationRisk,
   avoidEncodePacked,
   deprecatedFunctions,
