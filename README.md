@@ -1,8 +1,6 @@
-# coypu
+# coypu <a href="https://github.com/aviggiano/coypu/assets/3029017/04206f5f-dcf3-4889-85ef-4053977f06fe"><img src="https://github.com/aviggiano/coypu/assets/3029017/04206f5f-dcf3-4889-85ef-4053977f06fe" width="75"/></a>
 
-Coypu is an open source community-driven static analyzer that competes on Code4rena Bot Races. 
-
-![DALL·E 2023-05-17 14 17 47 - A drawing of a coypu](https://github.com/aviggiano/coypu/assets/3029017/04206f5f-dcf3-4889-85ef-4053977f06fe|width=100px)
+Coypu is an open source community-driven static analyzer for Code4rena Bot Races
 
 ## Motivation
 
