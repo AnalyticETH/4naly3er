@@ -26,6 +26,7 @@ Prizes will be held on a community multisig and will be split amongst all contri
 
 - @aviggiano M [msgValueWithoutPayable](https://github.com/aviggiano/coypu/blob/main/src/issues/M/msgValueWithoutPayable.ts)
 - @aviggiano M [supportsInterface](https://github.com/aviggiano/coypu/blob/main/src/issues/M/supportsInterface.ts)
+- @aviggiano M [slippageValidation](https://github.com/aviggiano/coypu/blob/main/src/issues/M/slippageValidation.ts)
 
 ## Request for detectors
 
