@@ -1,6 +1,6 @@
 {
   "name": "coypu",
-  "version": "0.0.12",
+  "version": "0.1.0",
   "description": "Static Solidity Analyzer",
   "main": "index.ts",
   "author": "Antonio Viggiano",
