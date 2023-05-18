@@ -29,6 +29,7 @@ import nonReentrantBeforeModifiers from './NC/nonReentrantBeforeModifiers';
 import requireWithString from './NC/requireWithString';
 import solmateSafeTransferLib from './M/solmateSafeTransferLib';
 import centralizationRisk from './M/centralizationRisk';
+import supportsInterface from './M/supportsInterface';
 import avoidEncodePacked from './L/avoidEncodePacked';
 import deprecatedFunctions from './L/deprecatedFunctions';
 import unspecifiedPragma from './L/unspecifiedPragma';
@@ -65,6 +66,7 @@ const issues: Issue[] = [
   nonReentrantBeforeModifiers,
   requireWithString,
   solmateSafeTransferLib,
+  supportsInterface,
   centralizationRisk,
   avoidEncodePacked,
   deprecatedFunctions,

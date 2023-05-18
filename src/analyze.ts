@@ -9,6 +9,10 @@ const issueTypesTitles = {
   H: 'High Issues',
 };
 
+const format = (c: number): string => {
+  return c.toString().padStart(2, '0');
+};
+
 /***
  * @notice Runs the given issues on files and generate the report markdown string
  */
@@ -54,7 +58,9 @@ const analyze = (files: InputType, issues: Issue[]): { result: string; summary: 
     result += '\n| |Issue|Instances|\n|-|:-|:-:|\n';
     for (const { issue, instances } of analyze) {
       c++;
-      const str = `| [${issue.type}-${c}](#${issue.type}-${c}) | ${issue.title} | ${instances.length} |\n`;
+      const str = `| [${issue.type}-${format(c)}](#${issue.type}-${format(c)}) | ${issue.title} | ${
+        instances.length
+      } |\n`;
       result += str;
       summary += str;
     }
@@ -64,7 +70,7 @@ const analyze = (files: InputType, issues: Issue[]): { result: string; summary: 
   c = 0;
   for (const { issue, instances } of analyze) {
     c++;
-    result += `### <a name="${issue.type}-${c}"></a>[${issue.type}-${c}] ${issue.title}\n`;
+    result += `### <a name="${issue.type}-${format(c)}"></a>[${issue.type}-${format(c)}] ${issue.title}\n`;
     if (!!issue.description) {
       result += `${issue.description}\n`;
     }
