@@ -5,11 +5,11 @@ import issues from './issues';
 import { InputType, IssueTypes } from './types';
 import { recursiveExploration } from './utils';
 
-/*   .---. ,--.  ,--  / ,---.   ,--.   ,--.'  ,-. .----. ,------.,------, 
-    / .  | |   \ |  | | \ /`.\  |  |   `\ . '.' /\_.-,  ||  .---'|   /`. ' 
-   / /|  | |  . '|  |)'-'|_.' | |  |     \     /   |_  <(|  '--. |  |_.' | 
-  / '-'  |||  |\    |(|  .-.  |(|  '_     /   /) .-. \  ||  .--' |  .   .' 
-  `---|  |'|  | \   | |  | |  | |     |`-/   /`  \ `-'  /|  `---.|  |\  \  
+/*   .---. ,--.  ,--  / ,---.   ,--.   ,--.'  ,-. .----. ,------.,------,
+    / .  | |   \ |  | | \ /`.\  |  |   `\ . '.' /\_.-,  ||  .---'|   /`. '
+   / /|  | |  . '|  |)'-'|_.' | |  |     \     /   |_  <(|  '--. |  |_.' |
+  / '-'  |||  |\    |(|  .-.  |(|  '_     /   /) .-. \  ||  .--' |  .   .'
+  `---|  |'|  | \   | |  | |  | |     |`-/   /`  \ `-'  /|  `---.|  |\  \
     `--' `--'  `--' `--' `--' `-----'  `--'     `---'' `------'`--' '--' */
 
 // ============================== GENERATE REPORT ==============================
@@ -58,11 +58,16 @@ const main = async (
   const files: InputType = [];
   const asts = await compileAndBuildAST(basePath, fileNames);
   fileNames.forEach((fileName, index) => {
-    files.push({
-      content: fs.readFileSync(`${basePath}${fileName}`, { encoding: 'utf8', flag: 'r' }),
-      name: fileName,
-      ast: asts[index],
-    });
+    try{
+      files.push({
+        content: fs.readFileSync(`${basePath}${fileName}`, { encoding: 'utf8', flag: 'r' }),
+        name: fileName,
+        ast: asts[index],
+      });
+    }
+    catch {
+
+    }
   });
 
   for (const t of Object.values(IssueTypes)) {

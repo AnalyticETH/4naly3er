@@ -29,18 +29,23 @@ const compile = async (version: string, toCompile: ToCompile, basePath: string) 
       errors: [{ formattedMessage: `Package solc-${version} is actually solc@${trueVersion}` }],
     };
   } else {
-    output = JSON.parse(
-      solc.compile(
-        JSON.stringify({
-          sources: toCompile,
-          language: 'Solidity',
-          settings: {
-            outputSelection: { '*': { '': ['ast'] } },
-          },
-        }),
-        { import: findImports(basePath) },
-      ),
-    );
+    try{
+      output = JSON.parse(
+        solc.compile(
+          JSON.stringify({
+            sources: toCompile,
+            language: 'Solidity',
+            settings: {
+              outputSelection: { '*': { '': ['ast'] } },
+            },
+          }),
+          { import: findImports(basePath) },
+        ),
+      );
+    }
+    catch {
+      return null;
+    }
   }
 
   return output;
@@ -100,13 +105,24 @@ const compileAndBuildAST = async (basePath: string, fileNames: string[]): Promis
   /** Read scope and fill file list */
   let i = 0;
   for (const file of fileNames) {
-    const content = await fs.readFileSync(path.join(basePath, file), { encoding: 'utf8', flag: 'r' });
+    var file_path = path.join(basePath, file)
+    if(!fs.existsSync(file_path))
+      continue
+
+    var content = ''
+    try {
+      content = await fs.readFileSync(file_path, { encoding: 'utf8', flag: 'r' });
+    }
+    catch {
+      continue;
+    }
+
     if (!!content) {
       if (!content.match(/pragma solidity (.*);/)) {
-        console.log(`Cannot find pragma in ${path.join(basePath, file)}`);
+        console.log(`Cannot find pragma in ${file_path}`);
       } else {
         sources.push({
-          file: path.join(basePath, file),
+          file: file_path,
           index: i++, // Used to know when a file is compiled
           content,
           version: content.match(/pragma solidity (.*);/)![1],
@@ -134,12 +150,16 @@ const compileAndBuildAST = async (basePath: string, fileNames: string[]): Promis
           }, {}),
           basePath,
         ).then(output => {
-          for (const f of filteredSources) {
-            if (!output.sources[f.file]?.ast) {
-              console.log(`Cannot compile AST for ${f.file}`);
+          if(output)
+          {
+            for (const f of filteredSources) {
+              if (!output.sources[f.file]?.ast) {
+                console.log(`Cannot compile AST for ${f.file}`);
+              }
+              sources[f.index].ast = output.sources[f.file]?.ast;
             }
-            sources[f.index].ast = output.sources[f.file]?.ast;
           }
+
         }),
       );
     }
