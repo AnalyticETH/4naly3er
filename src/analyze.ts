@@ -47,9 +47,6 @@ const analyze = (files: InputType, issues: Issue[], githubLink?: string): string
     }
   }
 
-  // reverse
-  analyze.reverse()
-
   /** Summary */
   let c = 0;
   if (analyze.length > 0) {
