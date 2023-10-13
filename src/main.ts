@@ -35,9 +35,12 @@ const main = async (
     // Scope is specified in a .txt file or is passed in a string
     const content = scope ?? fs.readFileSync(scopeFile as string, { encoding: 'utf8', flag: 'r' });
     for (const word of [...content.matchAll(/[a-zA-Z\/\.\-\_0-9]+/g)].map(r => r[0])) {
-      if (word.endsWith('.sol') && fs.existsSync(`${basePath}${word}`)) {
-        fileNames.push(word);
-      }
+      let scopeLinePath = `${basePath}${word}`;
+      // if (word.endsWith('.sol') && fs.existsSync(`${basePath}${word}`)) {
+      //   fileNames.push(word);
+      // }
+      let scopeForLine = recursiveExploration(scopeLinePath);
+      fileNames.push(...scopeForLine.map(x=>`${word}${x}`));
     }
     if (fileNames.length === 0) throw Error('Scope is empty');
   } else {
