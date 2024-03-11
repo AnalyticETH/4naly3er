@@ -67,7 +67,12 @@ const findImports = (basePath: string) => {
         const remappings = fs.readFileSync(path.resolve(basePath, prefix, 'remappings.txt'), 'utf8');
         for (const line of remappings.split('\n')) {
           if (!!line.split('=')[0] && !!line.split('=')[1]) {
-            relativePath = relativePath.replace(line.split('=')[0], line.split('=')[1]);
+            const remapped = relativePath.replace(line.split('=')[0], line.split('=')[1]);
+            if (remapped !== relativePath){
+              relativePath = remapped;
+              break;
+            }
+            relativePath = remapped;
           }
         }
 
