@@ -16,6 +16,7 @@ const issueTypesTitles = {
 };
 
 const color = {
+    BLACK: '\x1b[30m',
     RED: '\x1b[31m',
     BRED: '\x1b[41m',
     GREEN: '\x1b[32m',
@@ -106,24 +107,32 @@ export const reportAsSarif = (analyze: Analysis[], githubLink?: string) => {
 
 export const reportAsStdOut = (analyze: Analysis[], githubLink?: string) => {
 
-    const h1 = (text: string): string => (color.BOLD + color.BGREEN + text + color.END + color.DUP_NEWLINE);
+    const h1 = (text: string): string => (color.BOLD + color.BGREEN + color.BLACK + text + color.END + color.DUP_NEWLINE);
     const title = (text: string): string => (color.BOLD + color.RED + text + color.END + color.DUP_NEWLINE);
     const text = (text: string): string => (color.GRAY + text + color.END + color.DUP_NEWLINE);
     const i = (text: string): string => (color.ITALIC + text + color.END + color.NEWLINE);
     const b = (text: string): string => (color.BOLD + color.GREEN + text + color.END + color.NEWLINE);
+    const typeColor = (text: string): string => {
+        if (text.includes('GAS')) return color.BOLD + color.BGRAY + text + color.END;
+        if (text.includes('NC')) return color.BOLD + color.BGRAY + text + color.END;
+        if (text.includes('L-')) return color.BOLD + color.BGREEN + color.BLACK + text + color.END;
+        if (text.includes('M-')) return color.BOLD + color.BYELLOW + color.BLACK + text + color.END;
+        if (text.includes('H-')) return color.BOLD + color.BRED + color.BLACK + text + color.END;
+        return text;
+    };
 
-    let result = h1('4naly3er Report');
+    let result = h1('4naly3er REPORT');
 
     /** Issue breakdown */
     let c = 0;
     for (const { issue, instances } of analyze) {
         c++;
-        result += title(`[${issue.type}-${c}] ${issue.title}`);
+        result += typeColor(issue.type + '-' + c) + title(` ${issue.title}`);
 
         if (!!issue.description) {
             result += text(issue.description);
         }
-        
+
         if (!!issue.impact) {
             result += b('Impact:');
             result += issue.impact + color.DUP_NEWLINE;
@@ -179,7 +188,7 @@ export const reportAsStdOut = (analyze: Analysis[], githubLink?: string) => {
         summary += b('Count \t Type \t Issue');
         for (const { issue, instances } of analyze) {
             c++;
-            summary += `${instances.length} \t ${issue.type}-${c} \t ${issue.title} \n`;
+            summary += `${instances.length} \t ${typeColor(issue.type + '-' + c)} \t ${issue.title} \n`;
         }
     }
     result += summary;

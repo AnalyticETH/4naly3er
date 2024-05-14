@@ -23,7 +23,7 @@ const analyze = (files: InputType, issues: Issue[]): Analysis[] => {
           const comments = [...res.input?.split('\n')[line].matchAll(/([ \t]*\/\/|[ \t]*\/\*|[ \t]*\*)/g)];
           if (comments.length === 0 || comments?.[0]?.index !== 0) {
             let line = lineFromIndex(res.input, res.index);
-            let endLine = undefined;
+            let endLine: any;
             if (!!issue.startLineModifier) line += issue.startLineModifier;
             if (!!issue.endLineModifier) endLine = line + issue.endLineModifier;
             instances.push({ fileName: file.name, line, endLine, fileContent: res.input! });
