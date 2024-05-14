@@ -1,5 +1,4 @@
 import { Analysis } from "./types";
-import fs from 'fs';
 
 export const reportType = {
     MARKDOWN: 'markdown',
