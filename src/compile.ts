@@ -71,16 +71,6 @@ const findImports = (basePath: string) => {
             relativePath = relativePath.replace(line.split('=')[0], line.split('=')[1]);
           }
         }
-        
-        // Dedouping logic for nested remappings
-        let arrayRelativePath = relativePath.split("/");
-        let dedoupedArrayRelativePath = [arrayRelativePath[0]];
-        for(let j = 1; j < arrayRelativePath.length; j++){
-          if(arrayRelativePath[j - 1] != arrayRelativePath[j]){
-            dedoupedArrayRelativePath.push(arrayRelativePath[j]);
-          }
-        }
-        relativePath = dedoupedArrayRelativePath.join("/");
 
         // Dedouping logic for nested remappings
         let arrayRelativePath = relativePath.split("/");
