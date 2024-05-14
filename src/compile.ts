@@ -1,8 +1,7 @@
 import fs from 'fs';
 import path from 'path';
 import semver from 'semver';
-import type { SourceUnit } from 'solidity-ast';
-import { recursiveExploration } from './utils';
+import type {SourceUnit} from 'solidity-ast';
 
 const versions = Object.keys(require('../package.json').dependencies)
   .filter(s => s.startsWith('solc-'))
@@ -15,7 +14,9 @@ type Sources = { file: string; index: number; content: string; version: string; 
 
 /***
  * @notice Compiles `toCompile` with solc
+ * @param version
  * @param toCompile source files with content already loaded
+ * @param basePath
  */
 const compile = async (version: string, toCompile: ToCompile, basePath: string) => {
   const solc = require(`solc-${version}`);
@@ -50,7 +51,7 @@ const compile = async (version: string, toCompile: ToCompile, basePath: string) 
  * @notice Reads and load an import file
  */
 const findImports = (basePath: string) => {
-  const res = (relativePath: string) => {
+  return (relativePath: string) => {
     const depth = 5;
     let prefix = '';
     for (let i = 0; i < depth; i++) {
@@ -58,8 +59,9 @@ const findImports = (basePath: string) => {
       try {
         const absolutePath = path.resolve(basePath, prefix, 'node_modules/', relativePath);
         const source = fs.readFileSync(absolutePath, 'utf8');
-        return { contents: source };
-      } catch {}
+        return {contents: source};
+      } catch {
+      }
 
       /** 2 - import are stored in `lib`
        * In this case you need to check eventual remappings
@@ -75,8 +77,8 @@ const findImports = (basePath: string) => {
         // Dedouping logic for nested remappings
         let arrayRelativePath = relativePath.split("/");
         let dedoupedArrayRelativePath = [arrayRelativePath[0]];
-        for(let j = 1; j < arrayRelativePath.length; j++){
-          if(arrayRelativePath[j - 1] != arrayRelativePath[j]){
+        for (let j = 1; j < arrayRelativePath.length; j++) {
+          if (arrayRelativePath[j - 1] != arrayRelativePath[j]) {
             dedoupedArrayRelativePath.push(arrayRelativePath[j]);
           }
         }
@@ -84,24 +86,25 @@ const findImports = (basePath: string) => {
 
         const absolutePath = path.resolve(basePath, relativePath);
         const source = fs.readFileSync(absolutePath, 'utf8');
-        return { contents: source };
-      } catch {}
+        return {contents: source};
+      } catch {
+      }
 
       /** 3 - import are stored relatively */
       try {
         const absolutePath = path.resolve(basePath, prefix, relativePath);
         const source = fs.readFileSync(absolutePath, 'utf8');
-        return { contents: source };
-      } catch {}
+        return {contents: source};
+      } catch {
+      }
 
       prefix += '../';
     }
 
     console.error(
-      `${relativePath} import not found\n\nMake sure you can compile the contracts in the original repository.\n`,
+        `${relativePath} import not found\n\nMake sure you can compile the contracts in the original repository.\n`,
     );
   };
-  return res;
 };
 
 const compileAndBuildAST = async (basePath: string, fileNames: string[]): Promise<SourceUnit[]> => {
