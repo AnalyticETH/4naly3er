@@ -1,3 +1,6 @@
+src/issues
+contracts/
+.DS_Store
 node_modules
 report.md
 .vscode/tasks.json

@@ -2,8 +2,9 @@ import fs from 'fs';
 import analyze from './analyze';
 import compileAndBuildAST from './compile';
 import issues from './issues';
-import { InputType, IssueTypes } from './types';
+import { Analysis, InputType, IssueTypes } from './types';
 import { recursiveExploration } from './utils';
+import { reportAsMarkdown, reportAsSarif, reportAsStdOut, reportType } from './report';
 
 /*   .---. ,--.  ,--  / ,---.   ,--.   ,--.'  ,-. .----. ,------.,------, 
     / .  | |   \ |  | | \ /`.\  |  |   `\ . '.' /\_.-,  ||  .---'|   /`. ' 
@@ -28,7 +29,6 @@ const main = async (
   out: string,
   scope?: string,
 ) => {
-  let result = '# Report\n\n';
   let fileNames: string[] = [];
 
   if (!!scopeFile || !!scope) {
@@ -65,15 +65,44 @@ const main = async (
     });
   });
 
+  let analysis: Analysis[] = [];
   for (const t of Object.values(IssueTypes)) {
-    result += analyze(
-      files,
-      issues.filter(i => i.type === t),
-      !!githubLink ? githubLink : undefined,
+    analysis = analysis.concat(
+      analyze(
+        files,
+        issues.filter(i => i.type === t),
+      )
     );
   }
 
-  fs.writeFileSync(out, result);
+  switch (out) {
+    case reportType.STDOUT: 
+      console.log(
+        reportAsStdOut(
+          analysis, 
+          !!githubLink ? githubLink : undefined,
+        )
+      );
+      break;
+
+    case reportType.MARKDOWN: 
+      const filename = `${basePath}_4naly3er_report.md`;
+      fs.writeFileSync(filename, 
+        reportAsMarkdown(
+          analysis, 
+          !!githubLink ? githubLink : undefined,
+        )
+      );
+     break;
+    
+    case reportType.SARIF: 
+      reportAsSarif(
+        analysis, 
+        !!githubLink ? githubLink : undefined,
+      );
+      break;
+  }
+
 };
 
 export default main;
