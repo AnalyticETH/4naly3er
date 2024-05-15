@@ -6,6 +6,7 @@ export enum IssueTypes {
   L = 'L',
   M = 'M',
   H = 'H',
+  TODO = 'TODO',
 }
 
 // List of solidity files with content and name
