@@ -3,7 +3,8 @@ import { lineFromIndex } from './utils';
 
 /***
  * @notice Runs the given issues on files and generate the report markdown string
- * @param githubLink optional url to generate links
+ * @param files
+ * @param issues
  */
 const analyze = (files: InputType, issues: Issue[]): Analysis[] => {
   let analyze: Analysis[] = [];

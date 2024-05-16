@@ -6,45 +6,72 @@ import { Analysis, InputType, IssueTypes } from './types';
 import { recursiveExploration } from './utils';
 import { reportAsMarkdown, reportAsSarif, reportAsStdOut, reportType } from './report';
 
-/*   .---. ,--.  ,--  / ,---.   ,--.   ,--.'  ,-. .----. ,------.,------, 
-    / .  | |   \ |  | | \ /`.\  |  |   `\ . '.' /\_.-,  ||  .---'|   /`. ' 
-   / /|  | |  . '|  |)'-'|_.' | |  |     \     /   |_  <(|  '--. |  |_.' | 
-  / '-'  |||  |\    |(|  .-.  |(|  '_     /   /) .-. \  ||  .--' |  .   .' 
-  `---|  |'|  | \   | |  | |  | |     |`-/   /`  \ `-'  /|  `---.|  |\  \  
+/*   .---. ,--.  ,--  / ,---.   ,--.   ,--.'  ,-. .----. ,------.,------,
+    / .  | |   \ |  | | \ /`.\  |  |   `\ . '.' /\_.-,  ||  .---'|   /`. '
+   / /|  | |  . '|  |)'-'|_.' | |  |     \     /   |_  <(|  '--. |  |_.' |
+  / '-'  |||  |\    |(|  .-.  |(|  '_     /   /) .-. \  ||  .--' |  .   .'
+  `---|  |'|  | \   | |  | |  | |     |`-/   /`  \ `-'  /|  `---.|  |\  \
     `--' `--'  `--' `--' `--' `-----'  `--'     `---'' `------'`--' '--' */
 
 // ============================== GENERATE REPORT ==============================
 
-/**
- * @param basePath Path were the contracts lies
- * @param scopeFile .txt file containing the contest scope
- * @param githubLink github url to generate links to code
- * @param out where to save the report
- * @param scope optional text containing the .sol files in scope. Replaces `scopeFile`
- */
-const main = async (
-  basePath: string,
-  scopeFile: string | null,
-  githubLink: string | null,
-  out: string,
-  scope?: string,
-) => {
-  let fileNames: string[] = [];
-
-  if (!!scopeFile || !!scope) {
-    // Scope is specified in a .txt file or is passed in a string
-    const content = scope ?? fs.readFileSync(scopeFile as string, { encoding: 'utf8', flag: 'r' });
+function exploreTargets(scopeTxt?: string, targetFile?: string, basePath?: string): string[] {
+  // Scope is specified in a .txt file
+  if (!!scopeTxt) {
+    let fileNames: string[] = [];
+    const content = scopeTxt ?? fs.readFileSync(scopeTxt as string, { encoding: 'utf8', flag: 'r' });
     for (const word of [...content.matchAll(/[a-zA-Z\/\.\-\_0-9]+/g)].map(r => r[0])) {
       if (word.endsWith('.sol') && fs.existsSync(`${basePath}${word}`)) {
         fileNames.push(word);
       }
     }
-    if (fileNames.length === 0) throw Error('Scope is empty');
-  } else {
-    // Scope is not specified: exploration of the folder
-    fileNames = recursiveExploration(basePath);
+    return fileNames
   }
 
+  // Scope is specified in a string
+  if (!!targetFile && fs.existsSync(targetFile)) {
+    return [targetFile];
+  }
+
+  // Scope is not specified: exploration of the folder
+  if (!!basePath) {
+    return recursiveExploration(basePath);
+  }
+
+  return [];
+}
+
+async function buildAst(basePath: string, fileNames: string[]): Promise<InputType> {
+  const files: InputType = [];
+  const asts = await compileAndBuildAST(basePath, fileNames);
+  fileNames.forEach((fileName, index) => {
+    files.push({
+      content: fs.readFileSync(`${basePath}${fileName}`, { encoding: 'utf8', flag: 'r' }),
+      name: fileName,
+      ast: asts[index],
+    });
+  });
+  return files
+}
+
+/**
+ * @param basePath Path were the contracts lies
+ * @param scopeTxt .txt file containing the contest scope
+ * @param targetFile optional text containing the .sol files in scope. Replaces `scopeTxt`
+ * @param githubLink github url to generate links to code
+ * @param outputFormat where to save the report
+ * @param specialRule optional rule to apply
+ */
+const main = async (
+  basePath: string,
+  scopeTxt?: string,
+  targetFile?: string,
+  githubLink?: string,
+  outputFormat?: string,
+  specialRule?: string,
+) => {
+  let fileNames: string[] = exploreTargets(scopeTxt, targetFile, basePath);
+  if (fileNames.length === 0) throw Error('Scope is empty');
   console.log('Scope: ', fileNames);
 
   // Uncomment next lines to have the list of analyzed files in the report
@@ -55,49 +82,48 @@ const main = async (
   // });
 
   // Read file contents and build AST
-  const files: InputType = [];
-  const asts = await compileAndBuildAST(basePath, fileNames);
-  fileNames.forEach((fileName, index) => {
-    files.push({
-      content: fs.readFileSync(`${basePath}${fileName}`, { encoding: 'utf8', flag: 'r' }),
-      name: fileName,
-      ast: asts[index],
-    });
-  });
+  const files: InputType = await buildAst(basePath, fileNames);
+
 
   let analysis: Analysis[] = [];
   for (const t of Object.values(IssueTypes)) {
     analysis = analysis.concat(
       analyze(
         files,
-        issues.filter(i => i.type === t),
+        issues.
+          filter(i => i.type === t).
+          filter(i => {
+            const rg = new RegExp(specialRule ?? '.*');
+            return rg.test(i.title);
+        }),
       )
     );
   }
 
-  switch (out) {
-    case reportType.STDOUT: 
+  // output
+  switch (outputFormat) {
+    case reportType.STDOUT:
       console.log(
         reportAsStdOut(
-          analysis, 
+          analysis,
           !!githubLink ? githubLink : undefined,
         )
       );
       break;
 
-    case reportType.MARKDOWN: 
+    case reportType.MARKDOWN:
       const filename = `${basePath}_4naly3er_report.md`;
-      fs.writeFileSync(filename, 
+      fs.writeFileSync(filename,
         reportAsMarkdown(
-          analysis, 
+          analysis,
           !!githubLink ? githubLink : undefined,
         )
       );
      break;
-    
-    case reportType.SARIF: 
+
+    case reportType.SARIF:
       reportAsSarif(
-        analysis, 
+        analysis,
         !!githubLink ? githubLink : undefined,
       );
       break;

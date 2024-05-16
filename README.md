@@ -5,6 +5,7 @@
   / '-'  |||  |\    | |  .-.  |(|  '_    /   /) .-. \  ||  .--' |  .   .'
   `---|  |'|  | \   | |  | |  | |     | /   /`  \ `-'  /|  `---.|  |\  \
       `--' `--'  `--' `--' `--' `-----' `--'     `---'' `------'`--' '--'
+      -- Upgraded by @LowK3v
 ```
 
 # Table of Contents
@@ -15,25 +16,33 @@
   - [Installation](#installation)
   - [Contributing](#contributing)
 
-## Usage
+## Upgraded Version Usage
 
 ```bash
-yarn analyze <BASE_PATH> <SCOPE_FILE> <GITHUB_URL>
+yarn analyze BASE_PATH -t <TARGET_FILE> -r <TARGET_RULE> -o <OUTPUT:[sarif|file|-]> -s <SCOPE_FILE> -l <GITHUB_URL>
 
 # Example
-yarn analyze contracts scope.example.txt
+yarn analyze contracts 
+yarn analyze -t example.sol
+yarn analyze -t example.sol -r "zero.*transfer"
+yarn analyze contracts -o sarif
+yarn analyze contracts -l github.com/xyz/contracts
+
 ```
 
 - `BASE_PATH` is a relative path to the folder containing the smart contracts.
+- `TARGET_FILE` is a relative path to the file of the smart contracts.
+- `TARGET_RULE` is a specific rule to analyze. It can be a regular expression. Default is `.*`.
+- `OUTPUT` is a format of the output. It can be `sarif`, `file` or `-` for stdout. Default is `-`.
 - `SCOPE_FILE` is an optional file containing a specific smart contracts scope (see [scope.example.txt](./scope.example.txt))
-- `GITHUB_URL` is an optional url to generate links to github in the report
+- `GITHUB_URL` is an optional url to generate links to the GitHub in the report
 - For remappings, add `remappings.txt` to `BASE_PATH`.
 - The output will be saved in a `report.md` file.
 
 ## Example Reports
 
 | Repository                                                                        | Report                                                                     |
-| --------------------------------------------------------------------------------- | -------------------------------------------------------------------------- |
+|-----------------------------------------------------------------------------------|----------------------------------------------------------------------------|
 | [Holograph](https://code4rena.com/contests/2022-10-holograph-contest)             | [Report](https://gist.github.com/Picodes/e9f1bb87ae832695694175abd8f9797f) |
 | [3xcalibur](https://code4rena.com/contests/2022-10-3xcalibur-contest)             | [Report](https://gist.github.com/Picodes/51789d48e3a3c9246a48bb490d688343) |
 | [Inverse Finance](https://code4rena.com/contests/2022-10-inverse-finance-contest) | [Report](https://gist.github.com/Picodes/8d3a45d6d1362fb9953d631d8c84a29f) |

@@ -1,5 +1,5 @@
 import main from './main';
-
+import minimist from 'minimist';
 /*   .---. ,--.  ,--  / ,---.   ,--.   ,--.'  ,-. .----. ,------.,------,
     / .  | |   \ |  | | \ /`.\  |  |   `\ . '.' /\_.-,  ||  .---'|   /`. '
    / /|  | |  . '|  |)'-'|_.' | |  |     \     /   |_  <(|  '--. |  |_.' |
@@ -9,13 +9,47 @@ import main from './main';
 
 // ================================= PARAMETERS ================================
 
-const basePath =
-  process.argv.length > 2 ? (process.argv[2].endsWith('/') ? process.argv[2] : process.argv[2] + '/') : 'contracts/';
-const out = process.argv.length > 3 && process.argv[3].includes('/sarif|file|-/g') ? process.argv[3] : '-';
-const scopeFile = process.argv.length > 4 && process.argv[4].endsWith('txt') ? process.argv[3] : null;
-const githubLink = process.argv.length > 5 && process.argv[5] ? process.argv[4] : null;
+function parseArgs() {
+  const args = minimist(process.argv.slice(2));
+  if (
+    !args['t'] && (
+      args['h'] ||
+      args._.length == 0 ||
+      args._[0] === 'help'
+    )
+  ) {
+    console.log('Usage: ')
+    console.log('\tnpx ts-node src/index.ts -h')
+    console.log('\tnpx ts-node src/index.ts targetDir -o [sarif|file|-] -s [scope.txt] -l [github-link] -r [rule.ts] -t [target.sol]')
+    process.exit(0)
+  }
 
-// ============================== GENERATE REPORT ==============================
+  const dir = args._[0] || './'
+  const outputFormat = args['o'] || '-'
+  const scopeFile = args['s'] || ''
+  const githubLink = args['l'] || ''
+  const specialRuleFile = args['r'] || ''
+  const specialTarget = args['t'] || ''
 
-// yarn analyze dir [sarif|file|-] [scope.txt] [github-link]
-main(basePath, scopeFile, githubLink, out);
+  console.log(`yarn analyze ${dir} -o ${outputFormat} -s ${scopeFile} -l ${githubLink} -r ${specialRuleFile} -t ${specialTarget}`)
+
+  return {
+    dir,
+    outputFormat,
+    scopeFile,
+    githubLink,
+    specialRuleFile,
+    specialTarget
+  }
+}
+
+const { dir, outputFormat, scopeFile, githubLink, specialRuleFile, specialTarget } = parseArgs()
+
+main(
+  dir,
+  scopeFile,
+  specialTarget,
+  githubLink,
+  outputFormat,
+  specialRuleFile,
+);

@@ -1,11 +1,11 @@
 import { SourceUnit } from 'solidity-ast';
 
 export enum IssueTypes {
-  GAS = 'GAS',
-  NC = 'NC',
-  L = 'L',
-  M = 'M',
   H = 'H',
+  M = 'M',
+  L = 'L',
+  NC = 'NC',
+  GAS = 'GAS',
   TODO = 'TODO',
 }
 
