@@ -11,7 +11,7 @@
 # Table of Contents
 
 - [Table of Contents](#table-of-contents)
-  - [Usage](#usage)
+  - [Usage](#Upgraded-Version-Usage)
   - [Example Reports](#example-reports)
   - [Installation](#installation)
   - [Contributing](#contributing)

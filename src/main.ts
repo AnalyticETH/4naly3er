@@ -20,7 +20,7 @@ function exploreTargets(scopeTxt?: string, targetFile?: string, basePath?: strin
   if (!!scopeTxt) {
     let fileNames: string[] = [];
     const content = scopeTxt ?? fs.readFileSync(scopeTxt as string, { encoding: 'utf8', flag: 'r' });
-    for (const word of [...content.matchAll(/[a-zA-Z\/\.\-\_0-9]+/g)].map(r => r[0])) {
+    for (const word of [...content.matchAll(/[a-zA-Z\/.\-_0-9]+/g)].map(r => r[0])) {
       if (word.endsWith('.sol') && fs.existsSync(`${basePath}${word}`)) {
         fileNames.push(word);
       }
