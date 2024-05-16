@@ -12,6 +12,7 @@ const issueTypesTitles = {
     L: 'Low Issues',
     M: 'Medium Issues',
     H: 'High Issues',
+    TODO: 'TODO Issues',
 };
 
 const color = {
@@ -154,7 +155,7 @@ export const reportAsStdOut = (analyze: Analysis[], githubLink?: string) => {
                     }
                     codeSnippet += `\n`;
                 }
-                codeSnippet += `${''}\n// ${o.fileName}:${o.line}\n`;
+                codeSnippet += `${''}// ${o.fileName}:${o.line}\n`;
                 previousFileName = o.fileName;
             }
 
