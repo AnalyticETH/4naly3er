@@ -34,7 +34,8 @@ const main = async (
   if (!!scopeFile || !!scope) {
     // Scope is specified in a .txt file or is passed in a string
     const content = scope ?? fs.readFileSync(scopeFile as string, { encoding: 'utf8', flag: 'r' });
-    for (const word of [...content.matchAll(/[a-zA-Z\/\.\-\_0-9]+/g)].map(r => r[0])) {
+    //for (const word of [...content.matchAll(/[a-zA-Z\/\.\-\_0-9]+/g)].map(r => r[0])) {  // Change to detect () in paths
+    for (const word of [...content.matchAll(/[a-zA-Z\/\.\-\_\(\)0-9]+/g)].map(r => r[0])) {  // credit to p0n1
       if (word.endsWith('.sol') && fs.existsSync(`${basePath}${word}`)) {
         fileNames.push(word);
       }
