@@ -10,3 +10,6 @@ const issue: RegexIssue = {
 };
 
 export default issue;
+
+// other detector uses this regex:
+//   regex: /\w(\+\+|--)/g,

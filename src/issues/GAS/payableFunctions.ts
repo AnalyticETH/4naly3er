@@ -10,3 +10,6 @@ const issue: RegexIssue = {
 };
 
 export default issue;
+
+// Other detecter uses this regex:
+//   regex: /^(?!.*\b(modifier|payable)\b).*\bonly/g,

@@ -10,3 +10,5 @@ const issue: RegexIssue = {
 };
 
 export default issue;
+// other detector has the following regex:
+//   regex: /(== true)|(== false)/g,  

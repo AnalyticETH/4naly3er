@@ -10,3 +10,7 @@ const issue: RegexIssue = {
 };
 
 export default issue;
+
+// other detector uses this regex:
+//  regex: /(\*|\/) ?(2|4|8|(16)|(32)|(64)|(128)|(256)|(512)|(1024)|(2048))\D/g,
+//   description: 'Shifting left by N is like multiplying by 2^N and shifting right by N is like dividing by 2^N',
