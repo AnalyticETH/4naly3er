@@ -11,6 +11,9 @@
 
 - [Table of Contents](#table-of-contents)
   - [Usage](#usage)
+    - [Parameters](#parameters)
+    - [Example](#example)
+    - [Print title and impact/ description of supported issues into a markdown file](#print-title-and-impact-description-of-supported-issues-into-a-markdown-file)
   - [Example Reports](#example-reports)
   - [Installation](#installation)
   - [Contributing](#contributing)
@@ -19,10 +22,9 @@
 
 ```bash
 yarn analyze <BASE_PATH> <SCOPE_FILE> <GITHUB_URL>
-
-# Example
-yarn analyze contracts scope.example.txt
 ```
+
+### Parameters
 
 - `BASE_PATH` is a relative path to the folder containing the smart contracts.
 - `SCOPE_FILE` is an optional file containing a specific smart contracts scope (see [scope.example.txt](./scope.example.txt))
@@ -31,13 +33,19 @@ yarn analyze contracts scope.example.txt
 - The output will be saved in a `report.md` file.
 - Ensure the smart contracts' dependencies are available.
 
-**print title and impact/ description of supported issues**
+### Example
 
 ```bash
-yarn print [outputFilePath]
+yarn analyze contracts scope.example.txt
 ```
 
-- `outputFilePath` is an optional file path to store title and impact/ description of supported issues in markdown file.
+### Print title and impact/ description of supported issues into a markdown file
+
+```bash
+yarn print [outputFile]
+```
+
+- `outputFile` is an optional file path to store title and title & description of all supported detectors.
 
 ## Example Reports
 
