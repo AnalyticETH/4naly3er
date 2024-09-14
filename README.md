@@ -29,14 +29,15 @@ yarn analyze contracts scope.example.txt
 - `GITHUB_URL` is an optional url to generate links to github in the report
 - For remappings, add `remappings.txt` to `BASE_PATH`.
 - The output will be saved in a `report.md` file.
+- Ensure the smart contracts' dependencies are available.
 
 **print title and impact/ description of supported issues**
+
 ```bash
 yarn print [outputFilePath]
 ```
 
- - `outputFilePath` is an optional file path to store title and impact/ description of supported issues in markdown file.
-
+- `outputFilePath` is an optional file path to store title and impact/ description of supported issues in markdown file.
 
 ## Example Reports
 
@@ -61,9 +62,3 @@ You're all set!
 ## Contributing
 
 You're more than welcome to contribute! For help you can check [CONTRIBUTING.md](CONTRIBUTING.md)
-
-
-## TODOS
-
-- Search codebase for TODOs within detectors
-- 
