@@ -61,3 +61,9 @@ You're all set!
 ## Contributing
 
 You're more than welcome to contribute! For help you can check [CONTRIBUTING.md](CONTRIBUTING.md)
+
+
+## TODOS
+
+- Search codebase for TODOs within detectors
+- 

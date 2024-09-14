@@ -11,3 +11,16 @@ const issue: RegexIssue = {
 };
 
 export default issue;
+//TODO: Review comment
+// jes16jupyter commented on Jun 8
+// Hi, thanks for great work.
+
+// I noticed that the current Implementation of upgradeableMissingGap just uses /Upgradeable/gi to match.
+
+// This could produce a lot of False catches.
+
+// _gap may already in the contract
+// OZ 5.0 uses storage layout.
+// Recommendation:
+
+// change regex to exclude _gap.
