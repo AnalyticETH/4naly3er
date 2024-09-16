@@ -37,12 +37,12 @@ const main = async (
     //for (const word of [...content.matchAll(/[a-zA-Z\/\.\-\_0-9]+/g)].map(r => r[0])) {  // Change to detect () in paths
     for (const word of [...content.matchAll(/[a-zA-Z\/\.\-\_\(\)0-9]+/g)].map(r => r[0])) {  // credit to p0n1
 
-      let scopeLinePath = `${basePath}${word}`;
-//      if (word.endsWith('.sol') && fs.existsSync(`${basePath}${word}`)) {
-//        fileNames.push(word);
-//      }					// add support for directory for scope - by hans-cyfrin 
-      let scopeForLine = recursiveExploration(scopeLinePath);
-      fileNames.push(...scopeForLine.map(x=>`${word}${x}`)); 
+//      let scopeLinePath = `${basePath}${word}`;
+      if (word.endsWith('.sol') && fs.existsSync(`${basePath}${word}`)) {
+        fileNames.push(word);
+      }					// add support for directory for scope - by hans-cyfrin 
+//      let scopeForLine = recursiveExploration(scopeLinePath);
+ //     fileNames.push(...scopeForLine.map(x=>`${word}${x}`)); 
     }
     if (fileNames.length === 0) throw Error('Scope is empty');
   } else {
