@@ -94,6 +94,11 @@ const toPascalCase = (str: string) => {
     .replace(/\s+/g, ''); // Remove spaces
 };
 
+// Function to sanitize file names by removing leading "."
+const sanitizeFileName = (fileName: string) => {
+  return fileName.startsWith('.') ? fileName.slice(1) : fileName;
+};
+
 // Function to map issue types to SARIF severity levels
 const mapSeverity = (type: string) => {
   switch (type) {
@@ -139,10 +144,10 @@ const mapSeverity = (type: string) => {
               fullDescription: {
                 text: item.issue.description || "No description provided."
               },              
-              helpUri: "https://github.com/AnalyticETH/4naly3er/blob/analytic/detectors.md",
-              help: {
-                text: "See the Description or Google the issue title and read the associated AuditBase article."
-              },
+              // helpUri: "https://github.com/AnalyticETH/4naly3er/blob/analytic/detectors.md",
+              // help: {
+              //   text: "See the Description or Google the issue title and read the associated AuditBase article."
+              // },
               properties: {
                 tags: [item.issue.type]
               }
@@ -172,7 +177,7 @@ const mapSeverity = (type: string) => {
               }
             ],
             partialFingerprints: {
-              primaryLocationLineHash: `${instance.fileName}:${instance.line}`
+              primaryLocationLineHash: `${sanitizeFileName(instance.fileName)}:${instance.line}` // Sanitize file name to remove leading "."
             },
             level: mapSeverity(item.issue.type) // Map issue type to SARIF severity level
           }))
