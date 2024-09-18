@@ -94,10 +94,20 @@ const toPascalCase = (str: string) => {
     .replace(/\s+/g, ''); // Remove spaces
 };
 
-// Function to sanitize file names by removing leading "."
 const sanitizeFileName = (fileName: string) => {
-  return fileName.startsWith('.') ? fileName.slice(1) : fileName;
+  return fileName.replace(/^\.?\//, '');
 };
+
+// Function to sanitize file names by removing leading "." and "/"
+const sanitizeFileName = (fileName: string) => {
+  return fileName.replace(/^\.?\//, '');
+};
+
+// Remove the "fileContent" property from each instance in the analyze array
+const analyzeWithoutFileContent = analyze.map(({ issue, instances }) => ({
+  issue,
+  instances: instances.map(({ fileName, line, endLine }) => ({ fileName, line, endLine }))
+}));
 
 // Function to map issue types to SARIF severity levels
 const mapSeverity = (type: string) => {
@@ -107,11 +117,11 @@ const mapSeverity = (type: string) => {
     case 'G':
       return 'note';
     case 'L':
-      return 'note';
+      return 'warning';
     case 'M':
       return 'warning';
     case 'H':
-      return 'warning';
+      return 'error';
     default:
       return 'note';
   }
@@ -134,11 +144,6 @@ const mapSecuritySeverity = (type: string) => {
   }
 };
 
-  // Remove the "fileContent" property from each instance in the analyze array
-  const analyzeWithoutFileContent = analyze.map(({ issue, instances }) => ({
-    issue,
-    instances: instances.map(({ fileName, line, endLine }) => ({ fileName, line, endLine }))
-  }));
 
   // Convert the JSON data to SARIF format
   const sarif = {
