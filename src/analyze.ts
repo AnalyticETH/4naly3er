@@ -11,85 +11,6 @@ const issueTypesTitles = {
   H: 'High Issues',
 };
 
-//// Support functions
-
-// Function to convert a string to Pascal-case
-const toPascalCase = (str: string) => {
-  return str
-    .replace(/[^a-zA-Z0-9 ]/g, '') // Remove non-alphanumeric characters
-    .replace(/\w\S*/g, (txt) => txt.charAt(0).toUpperCase() + txt.substr(1).toLowerCase()) // Capitalize each word
-    .replace(/\s+/g, ''); // Remove spaces
-};
-
-  const sanitizeFileName = (fileName: string) => {
-    return fileName.replace(/^\.?\//, '');
-  };
-
-  // Function to sanitize file names by removing leading "." and "/"
-  const sanitizeFileNames = (fileName: string) => {
-    return fileName.replace(/^\.?\//, '');
-  };
-
-  // Remove the "fileContent" property from each instance in the analyze array
-  const analyzeWithoutFileContent = analyze.map(({ issue, instances }) => ({
-    issue,
-    instances: instances.map(({ fileName, line, endLine }) => ({ fileName, line, endLine }))
-  }));
-
-
-  // Function to map issue types to SARIF severity levels
-  const mapSeverity = (type: string) => {
-    switch (type) {
-      case 'NC':
-        return 'note';
-      case 'G':
-        return 'note';
-      case 'L':
-        return 'warning';
-      case 'M':
-        return 'warning';
-      case 'H':
-        return 'error';
-      default:
-        return 'note';
-    }
-  };
-
-  const mapSecuritySeverity = (type: string) => {
-    switch (type) {
-      case 'G':
-        return '0.0';
-      case 'NC':
-        return '2.5';
-      case 'L':
-        return '5.0';
-      case 'M':
-        return '7.5';
-      case 'H':
-        return '10.0';
-      default:
-        return '10.0';
-    }
-  };
-
-  // Function to map issue types to descriptive tags
-  const mapTag = (type: string) => {
-    switch (type) {
-      case 'NC':
-        return 'Informational';
-      case 'G':
-        return 'Gas Optimization';
-      case 'L':
-        return 'Low';
-      case 'M':
-        return 'Medium';
-      case 'H':
-        return 'High';
-      default:
-        return 'Unknown';
-    }
-  };
-
 /**
  * @notice Runs the given issues on files and generate the report markdown string
  * @param githubLink optional url to generate links
@@ -246,6 +167,85 @@ const analyze = (files: InputType, issues: Issue[], githubLink?: string): string
 
   /** SARIF Generation Section */
 
+//// Support functions
+
+// Function to convert a string to Pascal-case
+const toPascalCase = (str: string) => {
+  return str
+    .replace(/[^a-zA-Z0-9 ]/g, '') // Remove non-alphanumeric characters
+    .replace(/\w\S*/g, (txt) => txt.charAt(0).toUpperCase() + txt.substr(1).toLowerCase()) // Capitalize each word
+    .replace(/\s+/g, ''); // Remove spaces
+};
+
+  const sanitizeFileName = (fileName: string) => {
+    return fileName.replace(/^\.?\//, '');
+  };
+
+  // Function to sanitize file names by removing leading "." and "/"
+  const sanitizeFileNames = (fileName: string) => {
+    return fileName.replace(/^\.?\//, '');
+  };
+
+  // Remove the "fileContent" property from each instance in the analyze array
+  const analyzeWithoutFileContent = analyze.map(({ issue, instances }) => ({
+    issue,
+    instances: instances.map(({ fileName, line, endLine }) => ({ fileName, line, endLine }))
+  }));
+
+
+  // Function to map issue types to SARIF severity levels
+  const mapSeverity = (type: string) => {
+    switch (type) {
+      case 'NC':
+        return 'note';
+      case 'G':
+        return 'note';
+      case 'L':
+        return 'warning';
+      case 'M':
+        return 'warning';
+      case 'H':
+        return 'error';
+      default:
+        return 'note';
+    }
+  };
+
+  const mapSecuritySeverity = (type: string) => {
+    switch (type) {
+      case 'G':
+        return '0.0';
+      case 'NC':
+        return '2.5';
+      case 'L':
+        return '5.0';
+      case 'M':
+        return '7.5';
+      case 'H':
+        return '10.0';
+      default:
+        return '10.0';
+    }
+  };
+
+  // Function to map issue types to descriptive tags
+  const mapTag = (type: string) => {
+    switch (type) {
+      case 'NC':
+        return 'Informational';
+      case 'G':
+        return 'Gas Optimization';
+      case 'L':
+        return 'Low';
+      case 'M':
+        return 'Medium';
+      case 'H':
+        return 'High';
+      default:
+        return 'Unknown';
+    }
+  };
+  
   // Convert the JSON data to SARIF format
   const sarif = {
     version: "2.1.0",
