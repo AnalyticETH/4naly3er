@@ -103,17 +103,17 @@ const sanitizeFileName = (fileName: string) => {
 const mapSeverity = (type: string) => {
   switch (type) {
     case 'NC':
-      return 'warning';
+      return 'Note';
     case 'G':
-      return 'note';
+      return 'Note';
     case 'L':
-      return 'low';
+      return 'Low';
     case 'M':
-      return 'medium';
+      return 'Medium';
     case 'H':
-      return 'high';
+      return 'High';
     default:
-      return 'none';
+      return 'Note';
   }
 };
 
@@ -180,6 +180,7 @@ const mapSeverity = (type: string) => {
               primaryLocationLineHash: `${sanitizeFileName(instance.fileName)}:${instance.line}` // Sanitize file name to remove leading "."
             },
             level: mapSeverity(item.issue.type) // Map issue type to SARIF severity level
+            severity: mapSeverity(item.issue.type) // Map issue type to SARIF severity level
           }))
         )
       }
