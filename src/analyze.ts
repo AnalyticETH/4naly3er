@@ -82,7 +82,7 @@ const analyze = (files: InputType, issues: Issue[], githubLink?: string): string
       // Add the issue and its instances to the analyze array
       analyze.push({ issue, instances });
     }
-  }
+  } // Done pushing to analyze array
 
   /** Summary Section */
   let c = 0; // Counter for issue instances
@@ -186,13 +186,6 @@ const toPascalCase = (str: string) => {
     return fileName.replace(/^\.?\//, '');
   };
 
-  // Remove the "fileContent" property from each instance in the analyze array
-  const analyzeWithoutFileContent = analyze.map(({ issue, instances }) => ({
-    issue,
-    instances: instances.map(({ fileName, line, endLine }) => ({ fileName, line, endLine }))
-  }));
-
-
   // Function to map issue types to SARIF severity levels
   const mapSeverity = (type: string) => {
     switch (type) {
@@ -245,7 +238,7 @@ const toPascalCase = (str: string) => {
         return 'Unknown';
     }
   };
-  
+
   // Convert the JSON data to SARIF format
   const sarif = {
     version: "2.1.0",
