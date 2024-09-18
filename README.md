@@ -30,7 +30,7 @@ yarn analyze <BASE_PATH> <SCOPE_FILE> <GITHUB_URL>
 - `SCOPE_FILE` is an optional file containing a specific smart contracts scope (see [scope.example.txt](./scope.example.txt))
 - `GITHUB_URL` is an optional url to generate links to github in the report
 - For remappings, add `remappings.txt` to `BASE_PATH`.
-- The output will be saved in a `report.md` file.
+- The output will be saved in a `report.md` file and a `report.sarif.json` file.
 - Ensure the smart contracts' dependencies are available.
 
 ### Example

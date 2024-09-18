@@ -2,6 +2,8 @@ import * as fs from 'fs';
 import issues from './issues';
 import { IssueTypes } from './types';
 
+// This file prints the issues to the console and optionally to a file
+
 const print = (outputFilePath: string | null = null) => {
   const outputLines: string[] = [];
 
