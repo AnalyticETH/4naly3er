@@ -142,14 +142,16 @@ const mapSeverity = (type: string) => {
                 text: item.issue.title // Can use ` toPascalCase(item.issue.title)` if we want it in Pascal case
               },
               fullDescription: {
-                text: "See the Description below or Google the issue title and read the associated AuditBase article."
+                text: item.issue.description || "No description provided."
               },              
               helpUri: "https://github.com/AnalyticETH/4naly3er/blob/analytic/detectors.md",
               help: {
                 text: item.issue.description || "No description provided."
               },
               properties: {
-                tags: [item.issue.type]
+                tags: [item.issue.type],
+                "security-severity": mapSeverity(item.issue.type), // Map issue type to SARIF severity level
+                "problem.severity": mapSeverity(item.issue.type) // Map issue type to SARIF severity level
               }
             }))
           }
@@ -179,8 +181,10 @@ const mapSeverity = (type: string) => {
             partialFingerprints: {
               primaryLocationLineHash: `${sanitizeFileName(instance.fileName)}:${instance.line}` // Sanitize file name to remove leading "."
             },
-            level: mapSeverity(item.issue.type) // Map issue type to SARIF severity level
-            severity: mapSeverity(item.issue.type) // Map issue type to SARIF severity level
+            level: mapSeverity(item.issue.type), // Map issue type to SARIF severity level
+            severity: mapSeverity(item.issue.type), // Map issue type to SARIF severity level
+            "security-severity": mapSeverity(item.issue.type), // Map issue type to SARIF severity level
+            "problem.severity": mapSeverity(item.issue.type), // Map issue type to SARIF severity level
           }))
         )
       }
