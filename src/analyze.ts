@@ -126,7 +126,7 @@ const mapSeverity = (type: string) => {
   // Convert the JSON data to SARIF format
   const sarif = {
     version: "2.1.0",
-    $schema: "https://schemastore.azurewebsites.net/schemas/json/sarif-2.1.0.json",
+    $schema: "https://raw.githubusercontent.com/oasis-tcs/sarif-spec/master/Schemata/sarif-schema-2.1.0.json",
     runs: [
       {
         tool: {
@@ -182,9 +182,6 @@ const mapSeverity = (type: string) => {
               primaryLocationLineHash: `${sanitizeFileName(instance.fileName)}:${instance.line}` // Sanitize file name to remove leading "."
             },
             level: mapSeverity(item.issue.type), // Map issue type to SARIF severity level
-            severity: mapSeverity(item.issue.type), // Map issue type to SARIF severity level
-            "security-severity": mapSeverity(item.issue.type), // Map issue type to SARIF severity level
-            "problem.severity": mapSeverity(item.issue.type), // Map issue type to SARIF severity level
           }))
         )
       }
