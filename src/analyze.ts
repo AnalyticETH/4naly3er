@@ -117,6 +117,23 @@ const mapSeverity = (type: string) => {
   }
 };
 
+const mapSecuritySeverity = (type: string) => {
+  switch (type) {
+    case 'NC':
+      return 'Note';
+    case 'G':
+      return 'Note';
+    case 'L':
+      return 'Low';
+    case 'M':
+      return 'Medium';
+    case 'H':
+      return 'High';
+    default:
+      return 'Note';
+  }
+};
+
   // Remove the "fileContent" property from each instance in the analyze array
   const analyzeWithoutFileContent = analyze.map(({ issue, instances }) => ({
     issue,
@@ -150,8 +167,8 @@ const mapSeverity = (type: string) => {
               },
               properties: {
                 tags: [item.issue.type],
-                "security-severity": mapSeverity(item.issue.type), // Map issue type to SARIF severity level
-                "problem.severity": mapSeverity(item.issue.type) // Map issue type to SARIF severity level
+                "security-severity": mapSecuritySeverity(item.issue.type), // Map issue type to SARIF severity level
+                "problem.severity": mapSecuritySeverity(item.issue.type) // Map issue type to SARIF severity level
               }
             }))
           }
