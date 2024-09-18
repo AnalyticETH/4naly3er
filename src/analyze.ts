@@ -94,6 +94,24 @@ const toPascalCase = (str: string) => {
     .replace(/\s+/g, ''); // Remove spaces
 };
 
+// Function to map issue types to SARIF severity levels
+const mapSeverity = (type: string) => {
+  switch (type) {
+    case 'NC':
+      return 'warning';
+    case 'G':
+      return 'note';
+    case 'L':
+      return 'low';
+    case 'M':
+      return 'medium';
+    case 'H':
+      return 'high';
+    default:
+      return 'none';
+  }
+};
+
   // Remove the "fileContent" property from each instance in the analyze array
   const analyzeWithoutFileContent = analyze.map(({ issue, instances }) => ({
     issue,
@@ -155,7 +173,8 @@ const toPascalCase = (str: string) => {
             ],
             partialFingerprints: {
               primaryLocationLineHash: `${instance.fileName}:${instance.line}`
-            }
+            },
+            level: mapSeverity(item.issue.type) // Map issue type to SARIF severity level
           }))
         )
       }
