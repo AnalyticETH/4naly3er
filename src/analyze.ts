@@ -144,6 +144,23 @@ const mapSecuritySeverity = (type: string) => {
   }
 };
 
+// Function to map issue types to descriptive tags
+const mapTag = (type: string) => {
+  switch (type) {
+    case 'NC':
+      return 'Informational';
+    case 'G':
+      return 'Gas Optimization';
+    case 'L':
+      return 'Low';
+    case 'M':
+      return 'Medium';
+    case 'H':
+      return 'High';
+    default:
+      return 'Unknown';
+  }
+};
 
   // Convert the JSON data to SARIF format
   const sarif = {
@@ -161,7 +178,7 @@ const mapSecuritySeverity = (type: string) => {
               id: `rule${index + 1}`,
               name: item.issue.title,
               shortDescription: {
-                text: item.issue.title // Can use ` toPascalCase(item.issue.title)` if we want it in Pascal case
+                text: item.issue.title
               },
               fullDescription: {
                 text: item.issue.description || "No description provided."
@@ -171,7 +188,7 @@ const mapSecuritySeverity = (type: string) => {
                 text: item.issue.description || "No description provided."
               },
               properties: {
-                tags: [item.issue.type],
+                tags: [mapTag(item.issue.type)], // Map issue type to descriptive tag
                 "security-severity": mapSecuritySeverity(item.issue.type), // Map issue type to SARIF severity level
                 "problem.severity": mapSecuritySeverity(item.issue.type) // Map issue type to SARIF severity level
               }
