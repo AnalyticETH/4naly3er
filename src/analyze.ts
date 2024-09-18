@@ -99,7 +99,7 @@ const sanitizeFileName = (fileName: string) => {
 };
 
 // Function to sanitize file names by removing leading "." and "/"
-const sanitizeFileName = (fileName: string) => {
+const sanitizeFileNames = (fileName: string) => {
   return fileName.replace(/^\.?\//, '');
 };
 
@@ -191,7 +191,7 @@ const mapSecuritySeverity = (type: string) => {
               {
                 physicalLocation: {
                   artifactLocation: {
-                    uri: sanitizeFileName(instance.fileName), // Sanitize the file name to remove leading "."
+                    uri: sanitizeFileNams(instance.fileName), // Sanitize the file name to remove leading "."
                   },
                   region: {
                     startLine: instance.line,
@@ -201,7 +201,7 @@ const mapSecuritySeverity = (type: string) => {
               }
             ],
             partialFingerprints: {
-              primaryLocationLineHash: `${sanitizeFileName(instance.fileName)}:${instance.line}` // Sanitize file name to remove leading "."
+              primaryLocationLineHash: `${sanitizeFileNames(instance.fileName)}:${instance.line}` // Sanitize file name to remove leading "."
             },
             level: mapSeverity(item.issue.type), // Map issue type to SARIF severity level
           }))
