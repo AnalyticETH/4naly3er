@@ -103,17 +103,17 @@ const sanitizeFileName = (fileName: string) => {
 const mapSeverity = (type: string) => {
   switch (type) {
     case 'NC':
-      return 'Note';
+      return 'note';
     case 'G':
-      return 'Note';
+      return 'note';
     case 'L':
-      return 'Low';
+      return 'note';
     case 'M':
-      return 'Medium';
+      return 'warning';
     case 'H':
-      return 'High';
+      return 'warning';
     default:
-      return 'Note';
+      return 'note';
   }
 };
 
