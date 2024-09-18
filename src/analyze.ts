@@ -142,12 +142,12 @@ const mapSeverity = (type: string) => {
                 text: item.issue.title // Can use ` toPascalCase(item.issue.title)` if we want it in Pascal case
               },
               fullDescription: {
-                text: item.issue.description || "No description provided."
+                text: "See the Description below or Google the issue title and read the associated AuditBase article."
               },              
-              // helpUri: "https://github.com/AnalyticETH/4naly3er/blob/analytic/detectors.md",
-              // help: {
-              //   text: "See the Description or Google the issue title and read the associated AuditBase article."
-              // },
+              helpUri: "https://github.com/AnalyticETH/4naly3er/blob/analytic/detectors.md",
+              help: {
+                text: item.issue.description || "No description provided."
+              },
               properties: {
                 tags: [item.issue.type]
               }
