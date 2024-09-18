@@ -213,8 +213,11 @@ const toPascalCase = (str: string) => {
           // Close the previous code block
           result += `\n${'```'}\n`;
           if (!!githubLink) {
+            // Remove leading "." from previousFileName if it exists
+            const sanitizedFileName = previousFileName.startsWith('.') ? previousFileName.slice(1) : previousFileName;
+            const middleURL = "tree/main"
             // Add link to the code if githubLink is provided
-            result += `[Link to code](${githubLink + previousFileName})\n`;
+            result += `[Link to code](${githubLink + middleURL + sanitizedFileName})\n`;
           }
           result += `\n`;
         }
@@ -239,8 +242,11 @@ const toPascalCase = (str: string) => {
     // Close the code block for the last file
     result += `\n${'```'}\n`;
     if (!!githubLink) {
+      // Remove leading "." from previousFileName if it exists
+      const sanitizedFileName = previousFileName.startsWith('.') ? previousFileName.slice(1) : previousFileName;      
+      const middleURL = "tree/main"
       // Add link to the code if githubLink is provided
-      result += `[Link to code](${githubLink + previousFileName})\n`;
+      result += `[Link to code](${githubLink + middleURL + sanitizedFileName})\n`;
     }
     result += `\n`;
   }
