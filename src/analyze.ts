@@ -191,7 +191,7 @@ const mapSecuritySeverity = (type: string) => {
               {
                 physicalLocation: {
                   artifactLocation: {
-                    uri: sanitizeFileNams(instance.fileName), // Sanitize the file name to remove leading "."
+                    uri: sanitizeFileNames(instance.fileName), // Sanitize the file name to remove leading "."
                   },
                   region: {
                     startLine: instance.line,
