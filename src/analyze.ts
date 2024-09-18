@@ -119,18 +119,18 @@ const mapSeverity = (type: string) => {
 
 const mapSecuritySeverity = (type: string) => {
   switch (type) {
-    case 'NC':
-      return 'Note';
     case 'G':
-      return 'Note';
+      return '0.0';
+    case 'NC':
+      return '2.5';
     case 'L':
-      return 'Low';
+      return '5.0';
     case 'M':
-      return 'Medium';
+      return '7.5';
     case 'H':
-      return 'High';
+      return '10.0';
     default:
-      return 'Note';
+      return '10.0';
   }
 };
 
