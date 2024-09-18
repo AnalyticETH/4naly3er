@@ -83,7 +83,8 @@ const analyze = (files: InputType, issues: Issue[], githubLink?: string): string
       analyze.push({ issue, instances });
     }
   }
-  // END ISSUE ANALYSIS REGION
+
+  /** SARIF Generation Section */
 
 // Function to convert a string to Pascal-case
 const toPascalCase = (str: string) => {
@@ -92,14 +93,6 @@ const toPascalCase = (str: string) => {
     .replace(/\w\S*/g, (txt) => txt.charAt(0).toUpperCase() + txt.substr(1).toLowerCase()) // Capitalize each word
     .replace(/\s+/g, ''); // Remove spaces
 };
-
-
-
-
-
-
-  /** Summary Section */
-  let c = 0; // Counter for issue instances
 
   // Remove the "fileContent" property from each instance in the analyze array
   const analyzeWithoutFileContent = analyze.map(({ issue, instances }) => ({
@@ -169,9 +162,12 @@ const toPascalCase = (str: string) => {
     ]
   };
 
-  // Write the SARIF data to a file called analysis.sarif.json
+  // Write the SARIF data to a file called report.sarif.json
   fs.writeFileSync('report.sarif.json', JSON.stringify(sarif, null, 2), 'utf-8');
 
+
+  /** Summary Section */
+  let c = 0; // Counter for issue instances
   if (analyze.length > 0) {
     // Add the title for the first issue type
     result += `\n## ${issueTypesTitles[analyze[0].issue.type]}\n\n`;
