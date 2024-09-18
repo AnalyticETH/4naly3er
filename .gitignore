@@ -5,3 +5,4 @@ scope.txt
 repos
 reports
 .env
+report.sarif.json
