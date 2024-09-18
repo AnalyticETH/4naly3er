@@ -167,7 +167,7 @@ const mapSeverity = (type: string) => {
               {
                 physicalLocation: {
                   artifactLocation: {
-                    uri: instance.fileName
+                    uri: sanitizeFileName(instance.fileName), // Sanitize the file name to remove leading "."
                   },
                   region: {
                     startLine: instance.line,
