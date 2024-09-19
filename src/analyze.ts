@@ -258,11 +258,11 @@ const toPascalCase = (str: string) => {
                 text: item.issue.title
               },
               fullDescription: {
-                text: item.issue.description || "No description provided."
+                text: item.issue.description || item.issue.title
               },              
               helpUri: "https://github.com/AnalyticETH/4naly3er/blob/analytic/detectors.md",
               help: {
-                text: item.issue.description || "No description provided."
+                text: item.issue.description || item.issue.title
               },
               properties: {
                 tags: [mapTag(item.issue.type)], // Map issue type to descriptive tag
