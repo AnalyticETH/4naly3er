@@ -207,17 +207,17 @@ const toPascalCase = (str: string) => {
   const mapSecuritySeverity = (type: string) => {
     switch (type) {
       case 'NC':
-        return '0.0';
+        return '0.0'; // No Severity
       case 'G':
-        return '2.5';
+        return '2.5'; // Low
       case 'L':
-        return '5.0';
+        return '5.0'; // Medium
       case 'M':
-        return '7.5';
+        return '7.5'; // High
       case 'H':
-        return '10.0';
+        return '10.0'; // Critical
       default:
-        return '10.0';
+        return '10.0'; // Everything should be defined; but just in case default to Critical.
     }
   };
 
