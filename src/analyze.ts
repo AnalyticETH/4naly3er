@@ -206,9 +206,9 @@ const toPascalCase = (str: string) => {
 
   const mapSecuritySeverity = (type: string) => {
     switch (type) {
-      case 'G':
-        return '0.0';
       case 'NC':
+        return '0.0';
+      case 'G':
         return '2.5';
       case 'L':
         return '5.0';
