@@ -11,6 +11,8 @@ const issueTypesTitles = {
   H: 'High Issues',
 };
 
+let preSARIF: { issue: Issue; instances: Instance[] }[] = []; // Array to store issues and their instances
+
 /**
  * @notice Runs the given issues on files and generate the report markdown string
  * @param githubLink optional url to generate links
@@ -81,8 +83,14 @@ const analyze = (files: InputType, issues: Issue[], githubLink?: string): string
       }
       // Add the issue and its instances to the analyze array
       analyze.push({ issue, instances });
+      preSARIF.push({ issue, instances });
     }
   } // Done pushing to analyze array
+
+
+//? return analyze - then call another function which does the markdown report
+// then in main.ts where it calls analyze, it should take the returned data and pass it to md report function
+
 
   /** Summary Section */
   let c = 0; // Counter for issue instances
@@ -193,6 +201,8 @@ const toPascalCase = (str: string) => {
         return 'note';
       case 'G':
         return 'note';
+      case 'GAS':
+        return 'note';
       case 'L':
         return 'warning';
       case 'M':
@@ -210,6 +220,8 @@ const toPascalCase = (str: string) => {
         return '0.0'; // No Severity
       case 'G':
         return '2.5'; // Low
+      case 'GAS':
+        return '2.5'; // Low
       case 'L':
         return '5.0'; // Medium
       case 'M':
@@ -217,7 +229,7 @@ const toPascalCase = (str: string) => {
       case 'H':
         return '10.0'; // Critical
       default:
-        return '10.0'; // Everything should be defined; but just in case default to Critical.
+        return '10.0'; // Everything should be define
     }
   };
 
@@ -228,6 +240,8 @@ const toPascalCase = (str: string) => {
         return 'Informational';
       case 'G':
         return 'Gas Optimization';
+      case 'GAS':
+        return 'Gas Optimization';
       case 'L':
         return 'Low';
       case 'M':
@@ -235,7 +249,7 @@ const toPascalCase = (str: string) => {
       case 'H':
         return 'High';
       default:
-        return 'Unknown';
+        return 'Informational';
     }
   };
 
@@ -251,7 +265,7 @@ const toPascalCase = (str: string) => {
             fullName: "4naly3er Static Smart Contract Code Analyzer",
             informationUri: "https://github.com/AnalyticETH/4naly3er",
             version: "0.2", // Update the version number        
-            rules: analyze.map((item, index) => ({
+            rules: preSARIF.map((item, index) => ({
               id: `rule${index + 1}`,
               name: item.issue.title,
               shortDescription: {
@@ -275,7 +289,7 @@ const toPascalCase = (str: string) => {
         automationDetails: {
           id: "4naly3er"
         },
-        results: analyze.flatMap((item, index) =>
+        results: preSARIF.flatMap((item, index) =>
           item.instances.map(instance => ({
             ruleId: `rule${index + 1}`,
             message: {

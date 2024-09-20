@@ -53,11 +53,10 @@ const main = async (
   console.log('Scope: ', fileNames);
 
   // Uncomment next lines to have the list of analyzed files in the report
-
-  // result += '## Files analyzed\n\n';
-  // fileNames.forEach(fileName => {
-  //   result += ` - ${fileName}\n`;
-  // });
+  result += '## Files analyzed\n\n';
+  fileNames.forEach(fileName => {
+    result += ` - ${fileName}\n`;
+  });
 
   // Read file contents and build AST
   const files: InputType = [];
