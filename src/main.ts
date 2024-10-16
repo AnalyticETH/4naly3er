@@ -1,6 +1,7 @@
 import fs from 'fs';
 import analyze from './analyze';
-import markdownReport from './markdown';
+import sarif from './sarif';
+import markdown from './markdown';
 import compileAndBuildAST from './compile';
 import issues from './issues';
 import { InputType, IssueTypes } from './types';
@@ -26,7 +27,8 @@ const main = async (
   basePath: string,
   scopeFile: string | null,
   githubLink: string | null,
-  out: string,
+  markdownOut?: string | null,
+  sarifOut?: string | null,
   scope?: string,
 ) => {
   let result = '# Report\n\n';
@@ -74,29 +76,25 @@ const main = async (
   let analyses = [];
 
   for (const t of Object.values(IssueTypes)) {
-    let kek = analyze(
+    let analyzeResults = analyze(
       files,
       issues.filter(i => i.type === t),
       !!githubLink ? githubLink : undefined,
     );
 
-    analyses.concat(kek);
+    analyses.concat(analyzeResults);
   }
 
-  // do markdown report generation
-
-  result += markdownReport(analyses);
-
-
-  for (const t of Object.values(IssueTypes)) {
-    result += analyze(
-      files,
-      issues.filter(i => i.type === t),
-      !!githubLink ? githubLink : undefined,
-    );
+  if (markdownOut != null){
+    result += markdown(analyses);
+    fs.writeFileSync(markdownOut, result);
   }
 
-  fs.writeFileSync(out, result);
+  if (sarifOut != null){
+    let sarifResult = sarif(analyses);
+    fs.writeFileSync('report.sarif.json', JSON.stringify(sarifResult, null, 2), 'utf-8');
+  }
+
 };
 
 export default main;
