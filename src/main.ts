@@ -4,7 +4,7 @@ import sarif from './sarif';
 import markdown from './markdown';
 import compileAndBuildAST from './compile';
 import issues from './issues';
-import { InputType, IssueTypes } from './types';
+import { InputType, IssueTypes, Analysis } from './types';
 import { recursiveExploration } from './utils';
 
 /*   .---. ,--.  ,--  / ,---.   ,--.   ,--.'  ,-. .----. ,------.,------, 
@@ -73,7 +73,7 @@ const main = async (
   });
 
   let resultString = '';
-  let analyses = [];
+  let analyses: Analysis[] = [];
 
   for (const t of Object.values(IssueTypes)) {
     let analyzeResults = analyze(
