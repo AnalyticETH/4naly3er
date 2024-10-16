@@ -18,7 +18,7 @@ const issueTypesTitles = {
  * @param issues Array of issues to be checked in the files
  * @returns A markdown string containing the analysis report
  */
-const analyze = (files: InputType, issues: Issue[], githubLink?: string): Analysis[] => {
+const analyze = (files: InputType, issues: Issue[]): Analysis[] => {
   let analyses: Analysis[] = []; // Array to store issues and their instances
 
   // Iterate over each issue to analyze it in the provided files

@@ -78,15 +78,13 @@ const main = async (
   for (const t of Object.values(IssueTypes)) {
     let analyzeResults = analyze(
       files,
-      issues.filter(i => i.type === t),
-      !!githubLink ? githubLink : undefined,
+      issues.filter(i => i.type === t)
     );
-
     analyses.concat(analyzeResults);
   }
 
   if (markdownOut != null){
-    result += markdown(analyses);
+    result += markdown(analyses, !!githubLink ? githubLink : undefined);
     fs.writeFileSync(markdownOut, result);
   }
 
