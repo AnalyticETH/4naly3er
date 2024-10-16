@@ -1,5 +1,6 @@
 import fs from 'fs';
 import analyze from './analyze';
+import markdownReport from './markdown';
 import compileAndBuildAST from './compile';
 import issues from './issues';
 import { InputType, IssueTypes } from './types';
@@ -68,6 +69,24 @@ const main = async (
       ast: asts[index],
     });
   });
+
+  let resultString = '';
+  let analyses = [];
+
+  for (const t of Object.values(IssueTypes)) {
+    let kek = analyze(
+      files,
+      issues.filter(i => i.type === t),
+      !!githubLink ? githubLink : undefined,
+    );
+
+    analyses.concat(kek);
+  }
+
+  // do markdown report generation
+
+  result += markdownReport(analyses);
+
 
   for (const t of Object.values(IssueTypes)) {
     result += analyze(

@@ -43,3 +43,8 @@ export type ASTIssue = {
   detector: (files: InputType) => Instance[]; // Function analyzing the AST and returning instances of the issue
   regexOrAST: 'AST';
 };
+
+export type Analysis = {
+  issue: Issue;
+  instances: Instance[];
+}
